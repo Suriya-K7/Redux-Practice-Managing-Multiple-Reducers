@@ -63,7 +63,6 @@ const anotateReducer = (state = anotateData, action) => {
     case "add":
       state = state.concat(action.payload);
       state.sort((a, b) => b.value - a.value);
-      console.log(state);
       return state;
     case "vote":
       state = state.map((item) => {

@@ -9,6 +9,7 @@ const AnotateNote = ({ each }) => {
       <p>
         has {each.value}
         <button
+          className="btn btn-outline-primary mx-5"
           onClick={() =>
             dispatch({
               type: "vote",
