@@ -74,6 +74,8 @@ const anotateReducer = (state = anotateData, action) => {
       });
       state.sort((a, b) => b.value - a.value);
       return state;
+    case "del":
+      return state.filter((item) => item.id !== action.payload.id);
     default:
       return state;
   }

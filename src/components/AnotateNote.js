@@ -7,9 +7,9 @@ const AnotateNote = ({ each }) => {
     <>
       <p>{each.text}</p>
       <p>
-        has {each.value}
+        has <span className="mx-2"> {each.value}</span>
         <button
-          className="btn btn-outline-primary mx-5"
+          className="btn btn-outline-primary mx-3"
           onClick={() =>
             dispatch({
               type: "vote",
@@ -18,6 +18,17 @@ const AnotateNote = ({ each }) => {
           }
         >
           Vote
+        </button>
+        <button
+          className="btn btn-outline-danger mx-3"
+          onClick={() =>
+            dispatch({
+              type: "del",
+              payload: { id: each.id },
+            })
+          }
+        >
+          Delete
         </button>
       </p>
     </>
