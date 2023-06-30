@@ -31,8 +31,34 @@ const todoReducer = (todos = [], action) => {
       return todos;
   }
 };*/
-
-const anotateReducer = (state = [], action) => {
+const anotateData = [
+  {
+    id: 1,
+    text: "But it works in my machine...",
+    value: 0,
+  },
+  {
+    id: 2,
+    text: "If it hurts, do it more often",
+    value: 0,
+  },
+  {
+    id: 3,
+    text: " Any fool can write code that a computer can understand. Good programmers Write code that humans can understand.",
+    value: 0,
+  },
+  {
+    id: 4,
+    text: "the first 90 percent of th code accounts for the first 90 percent of the    development time... The remaining 10 precent of the code acc time.",
+    value: 0,
+  },
+  {
+    id: 5,
+    text: "Adding manpower to a late software project makes it later!",
+    value: 0,
+  },
+];
+const anotateReducer = (state = anotateData, action) => {
   switch (action.type) {
     case "add":
       state = state.concat(action.payload);
@@ -54,61 +80,7 @@ const anotateReducer = (state = [], action) => {
   }
 };
 const store = createStore(anotateReducer);
-/*
-function newTodo(name) {
-  return {
-    id: Date.now(),
-    name: name,
-    complete: false,
-  };
-}
-*/
 const App = () => {
-  /*
-  function reducer(todos, action) {
-    switch (action.type) {
-      case ACTIONS.ADD_TODO:
-        return [...todos, newTodo(action.payload.name)];
-      case ACTIONS.COM:
-        return todos.map((todo) => {
-          if (todo.id === action.payload.id) {
-            return { ...todo, complete: !todo.complete };
-          } else {
-            return todo;
-          }
-        });
-      case ACTIONS.DEL:
-        return todos.filter((todo) => todo.id !== action.payload.id);
-      default:
-        return todos;
-    }
-  }
-  function newTodo(name) {
-    return {
-      name: name,
-      id: Date.now(),
-      complete: false,
-    };
-  }
-  const [todos, dispatch] = useReducer(reducer, []);
-  const [name, setName] = useState("");
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch({ type: ACTIONS.ADD_TODO, payload: { name: name } });
-    setName("");
-  }
-*/
-  // const name = useRef("");
-  // function handleSubmit(e) {
-  //   let todo = newTodo(name.current.value);
-  //   e.preventDefault();
-  //   store.todo.dispatch({
-  //     type: ACTIONS.ADD,
-  //     payload: todo,
-  //   });
-  //   name.current.value = "";
-  //   name.current.focus();
-  // }
   const text = useRef("");
   const newTextData = (text) => {
     return {

@@ -1,5 +1,4 @@
-// const anotateData = [];
-/*
+const anotateData = [
   {
     id: 1,
     text: "But it works in my machine...",
@@ -25,6 +24,9 @@
     text: "Adding manpower to a late software project makes it later!",
     value: 0,
   },
+];
+/*
+  
 */
 // const anotateReducer = (state = anotateData, action) => {
 //   switch (action.type) {
