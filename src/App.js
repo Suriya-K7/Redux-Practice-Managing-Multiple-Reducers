@@ -1,86 +1,30 @@
 import React, { useRef } from "react";
 import { createStore } from "redux";
-// import Todos from "./Todos.js";
+import Todos from "./components/Todo/Todos";
 import { Provider } from "react-redux";
-// import Status from "./Status.js";
-// import statusReducer from "./reducers/Status.js";
-import Anotates from "./components/Anotates.js";
-// import anotateReducer from "./reducers/AnotateReduce.js";
+import { combineReducers } from "redux";
+import Status from "./components/Status/Status.js";
+import statusReducer from "./reducers/Status.js";
+import Anotates from "./components/Annotate/Anotates.js";
+import anotateReducer from "./reducers/AnotateReducer.js";
+import todoReducer from "./reducers/TodoRedeucer.js";
 
-export const ACTIONS = {
+export const ACTION = {
   ADD: "add",
+  ADDTODO: "addtodo",
   COM: "complete",
-  DEL: "delete",
+  DEL: "del",
+  VOTE: "vote",
 };
-/*
-const todoReducer = (todos = [], action) => {
-  switch (action.type) {
-    case ACTIONS.ADD:
-      return [...todos, action.payload];
-    case ACTIONS.COM:
-      return todos.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return { ...todo, complete: !todo.complete };
-        } else {
-          return todo;
-        }
-      });
-    case ACTIONS.DEL:
-      return todos.filter((todo) => todo.id !== action.payload.id);
-    default:
-      return todos;
-  }
-};*/
-const anotateData = [
-  {
-    id: 1,
-    text: "But it works in my machine...",
-    value: 0,
-  },
-  {
-    id: 2,
-    text: "If it hurts, do it more often",
-    value: 0,
-  },
-  {
-    id: 3,
-    text: " Any fool can write code that a computer can understand. Good programmers Write code that humans can understand.",
-    value: 0,
-  },
-  {
-    id: 4,
-    text: "the first 90 percent of th code accounts for the first 90 percent of the    development time... The remaining 10 precent of the code acc time.",
-    value: 0,
-  },
-  {
-    id: 5,
-    text: "Adding manpower to a late software project makes it later!",
-    value: 0,
-  },
-];
-const anotateReducer = (state = anotateData, action) => {
-  switch (action.type) {
-    case "add":
-      state = state.concat(action.payload);
-      state.sort((a, b) => b.value - a.value);
-      return state;
-    case "vote":
-      state = state.map((item) => {
-        if (item.id === action.payload.id) {
-          return { ...item, value: action.payload.value + 1 };
-        } else {
-          return item;
-        }
-      });
-      state.sort((a, b) => b.value - a.value);
-      return state;
-    case "del":
-      return state.filter((item) => item.id !== action.payload.id);
-    default:
-      return state;
-  }
-};
-const store = createStore(anotateReducer);
+const rootReducer = combineReducers({
+  anotate: anotateReducer,
+  status: statusReducer,
+  todo: todoReducer,
+});
+
+// const store = createStore(anotateReducer);
+const store = createStore(rootReducer);
+
 const App = () => {
   const text = useRef("");
   const newTextData = (text) => {
@@ -90,7 +34,7 @@ const App = () => {
       value: 0,
     };
   };
-  const handleSubmit = (e) => {
+  const handleSubmitAnnotate = (e) => {
     e.preventDefault();
     let textData = newTextData(text.current.value);
     store.dispatch({
@@ -99,11 +43,34 @@ const App = () => {
     });
     text.current.value = "";
   };
-
+  function newTodo(name) {
+    return {
+      id: Date.now(),
+      name: name,
+      complete: false,
+    };
+  }
+  const name = useRef("");
+  function handleSubmitTodo(e) {
+    let todo = newTodo(name.current.value);
+    e.preventDefault();
+    store.dispatch({
+      type: ACTION.ADDTODO,
+      payload: todo,
+    });
+    name.current.value = "";
+    name.current.focus();
+  }
   return (
     <Provider store={store}>
       <div className="container">
-        <form onSubmit={handleSubmit} className="p-3 d-flex gap-2">
+        <h1 className="text-center">TASK 01 - Status</h1>
+        <Status />
+      </div>
+      <hr />
+      <div className="container">
+        <h1 className="text-center">TASK 02 - Annodate</h1>
+        <form onSubmit={handleSubmitAnnotate} className="p-3 d-flex gap-2">
           <input ref={text} type="text" className="form-control" />
           <button className="btn btn-outline-primary" type="submit">
             Submit
@@ -111,6 +78,17 @@ const App = () => {
         </form>
         <br />
         <Anotates />
+      </div>
+      <hr />
+      <div className="container my-3">
+        <h1 className="text-center">Task 03 - TODO</h1>
+        <form onSubmit={handleSubmitTodo} className="p-3 d-flex gap-2">
+          <input ref={name} type="text" className="form-control" />
+          <button className="btn btn-outline-primary" type="submit">
+            Submit
+          </button>
+        </form>
+        <Todos />
       </div>
     </Provider>
   );
